@@ -1,13 +1,13 @@
 version: 10
 file format: 0
 
-training data file: ../eng_text/en_s1.txt
+training data file: ../eng_text/en_s1_train.txt
 validation data file: ../eng_text/test_eng.txt
 
 last probability of validation data: -1116.839799
 number of finished iterations: 4
 current position in training data: 0
-current probability of training data: -1140.430910
+current probability of training data: -1140.729938
 save after processing # words: 0
 # of training words: 118604
 input layer size: 110
