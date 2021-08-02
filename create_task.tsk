@@ -1,0 +1,12 @@
+
+rm -rf run.sh
+vocab_sizes=(80 100 400 800 1200 1600 2000 2500 3000 4000)
+hids=(40 80 120)
+for hid in "${hids[@]}"; do
+    for vocab_size in "${vocab_sizes[@]}"; do
+        echo "python bengali.py" \
+        "data/bengali_corpus.txt outdir_bn spm_model rnn_model" \
+        "-hid ${hid} -bptt 3 -vocab_sizes ${vocab_size} -class_sizes ${vocab_size}" >> run.sh
+    done
+done
+chmod a+x run.sh
