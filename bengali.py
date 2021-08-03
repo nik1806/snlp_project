@@ -193,15 +193,22 @@ def oov_comparison(args):
         k = path.name.split(".")[0]
         rnn_vocabs[k] = vocab_generator(Path(path).open('r').read())
         # 5.2
-        print("Computing OOV rate: k=", k.split("_")[1], end = "\r")
+        print("Computing OOV rate: k =", k.split("_")[1], end = "\r")
         oov_rates.append(oov_calculator(train_vocabs+rnn_vocabs[k], test_vocabs))
         
     all_rnn_vocabs = list(set([word for item in list(rnn_vocabs.values()) for word in item]))
     # 5.1
+    
     print("Generating OOV on all vocabs")
     all_vocabs = train_vocabs + all_rnn_vocabs
     oov_all_vocabs = oov_calculator(all_vocabs, test_vocabs)
-    print("OOV rate (adding all rnn generated words to train vocab): ", oov_all_vocabs)
+    print("OOV rate (adding all rnn generated words to train vocab): %.3f" %(oov_all_vocabs))
+    oov2 = "OOV rate for each K"
+    with open(str(path).split("k_")[0] + '/oov.txt', 'w') as fpw:
+        fpw.write('OOV rate (adding all rnn generated words to train vocab):'+str(oov_all_vocabs)+'\n')
+        fpw.write(oov2+'\n')
+        for k, ovr in enumerate(oov_rates):
+            fpw.write(str(k)+':'+'\t'+str(ovr)+  '\n')
     
     # 5.3
     # if error, install 
@@ -217,7 +224,7 @@ def oov_comparison(args):
     ax.set_xlabel(r'\textbf{K}')
     ax.set_ylabel(r'\textbf{OOV rate}')
     ax.set_title(r'\textbf{OOV: Bengali corpus}')
-    plt.savefig('bengali_oov.pdf', bbox_inches='tight')
+    plt.savefig(str(path).split("k_")[0] + '/bengali_oov.pdf', bbox_inches='tight')
     
 
 def main():
@@ -230,11 +237,10 @@ def main():
     for prefix, vocab_size in enumerate(vocab_sizes):
         class_size = str(args.class_sizes)
         prefix = "bn_s" + str(prefix+1) + "_vocab_size_" + str(vocab_size)
-        # model_train(vocab_size, prefix, args)
-        # lm_train(prefix, class_size, args)
-        # text_generation(prefix, class_size, args)
+        model_train(vocab_size, prefix, args)
+        lm_train(prefix, class_size, args)
+        text_generation(prefix, class_size, args)
         oov_comparison(args)
-        exit()
 
 def parse_arguments():
     """ parse arguments """
