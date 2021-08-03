@@ -21,3 +21,14 @@ def preprocess(text) -> List:
 def train_test_split_data(text:List, test_size:float=0.1):
     k = int(len(text) * (1 - test_size)) # may be randomize the split later
     return text[:k], text[k:]
+
+def vocab_generator(data):
+    # pdb.set_trace()
+    data = data.translate(str.maketrans('', '', string.punctuation))
+    vocabs = set(data.split())
+    return list(vocabs)
+
+def oov_calculator(train, test):
+    unseen_tokens = [tok for tok in test if tok not in train]
+    oov_rate = len(unseen_tokens)/len(test)
+    return oov_rate
