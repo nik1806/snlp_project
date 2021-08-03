@@ -14,7 +14,8 @@ def preprocess(text) -> List:
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     tokens_list = tokenizer.tokenize(text)
     # tokens_list = file_content.split('\n')
-    tokens_list = [s.strip() for s in tokens_list]
+    # tokens_list = [s.strip('\n') for s in tokens_list]
+    tokens_list = [s.replace('\n', ' ') for s in tokens_list]
     return tokens_list
 
 def train_test_split_data(text:List, test_size:float=0.1):
