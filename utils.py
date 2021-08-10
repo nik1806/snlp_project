@@ -14,9 +14,21 @@ def preprocess(text) -> List:
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     tokens_list = tokenizer.tokenize(text)
     # tokens_list = file_content.split('\n')
-    tokens_list = [s.strip() for s in tokens_list]
+    # tokens_list = [s.strip('\n') for s in tokens_list]
+    tokens_list = [s.replace('\n', ' ') for s in tokens_list]
     return tokens_list
 
 def train_test_split_data(text:List, test_size:float=0.1):
     k = int(len(text) * (1 - test_size)) # may be randomize the split later
     return text[:k], text[k:]
+
+def vocab_generator(data):
+    # pdb.set_trace()
+    data = data.translate(str.maketrans('', '', string.punctuation))
+    vocabs = set(data.split())
+    return list(vocabs)
+
+def oov_calculator(train, test):
+    unseen_tokens = [tok for tok in test if tok not in train]
+    oov_rate = len(unseen_tokens)/len(test)
+    return oov_rate
