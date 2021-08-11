@@ -2,6 +2,7 @@
 import string
 from typing import List, Dict
 import nltk.data
+import numpy as np
 
 # functions
 
@@ -25,10 +26,16 @@ def train_test_split_data(text:List, test_size:float=0.1):
 def vocab_generator(data):
     # pdb.set_trace()
     data = data.translate(str.maketrans('', '', string.punctuation))
-    vocabs = set(data.split())
+    vocabs = data.split()
     return list(vocabs)
 
+# def oov_calculator(train, test):
+#     unseen_tokens = [tok for tok in test if tok not in train]
+#     oov_rate = len(unseen_tokens)/len(test)
+#     return oov_rate
+
 def oov_calculator(train, test):
-    unseen_tokens = [tok for tok in test if tok not in train]
-    oov_rate = len(unseen_tokens)/len(test)
+    matches = np.in1d(test,train)
+    unseen_tokens = len(matches) - np.count_nonzero(matches)
+    oov_rate = unseen_tokens/len(test)
     return oov_rate
