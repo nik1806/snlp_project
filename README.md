@@ -1,7 +1,7 @@
 # snlp_project
 Final project for SNLP course summer semester 2021
 
-Please look inside `final_submission` directory for final version of notebook code on English and Bengali language. Here, we present a succint summary of the whole project with analysis of results.
+Please look inside `final_submission` directory for final version of notebook code on English and Bengali language. Here, we present a succinct summary of the whole project with analysis of results.
 
 ## Introduction
 With this project, we aim to estimate OOV words using subword representation. To achieve this we train RNN based language model to artificially generate corpus and compute OOV rate on varying sizes of the generated corpora. Estimating OOV words helps improve the performance of the language model. In this work, we achieved a better OOV rate and perplexity score than the baseline for all three levels of granularity with appropriate hyperparameter tuning.
